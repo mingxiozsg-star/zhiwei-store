@@ -124,7 +124,7 @@ fun HomeScreen(
                 title = when (tab) {
                     "应用榜" -> "应用榜"
                     "游戏" -> "热门游戏"
-                    else -> "$tab应用"
+                    else -> "${tab}应用"
                 },
                 right = if (apps.isNotEmpty()) "${apps.size} 款" else null
             )
