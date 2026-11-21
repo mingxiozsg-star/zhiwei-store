@@ -1,0 +1,16 @@
+*.iml
+*.hprof
+.gradle/
+.kotlin/
+.idea/
+.DS_Store
+**/build/
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+# 编辑器/工具备份与沙箱目录，不入库
+.backup/
+.operit/
+*.apk.idsig
