@@ -141,55 +141,70 @@ fun AppRow(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(horizontal = 16.dp, vertical = 9.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        RemoteIcon(url = app.iconUrl, fallback = app.name, size = 50.dp)
+        RemoteIcon(url = app.iconUrl, fallback = app.name, size = 56.dp)
         Spacer(Modifier.width(12.dp))
         Column(Modifier.weight(1f)) {
+            Text(
+                text = app.name,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 15.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Spacer(Modifier.height(3.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = app.name,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 15.sp,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f, fill = false)
-                )
-                Spacer(Modifier.width(6.dp))
-                SourceChip(app.sourceName)
-            }
-            if (app.summary.isNotBlank()) {
-                Spacer(Modifier.height(2.dp))
-                Text(
-                    text = app.summary,
-                    fontSize = 12.sp,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-            Spacer(Modifier.height(4.dp))
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                val meta = buildList {
-                    app.versionName?.let { add("v$it") }
-                    if (app.sizeBytes > 0) add(formatSize(app.sizeBytes))
-                    if (app.updatedAt > 0) add(relativeTime(app.updatedAt))
+                if (app.rating > 0) {
+                    Text(
+                        text = "★" + "%.1f".format(app.rating),
+                        fontSize = 11.sp,
+                        color = Color(0xFFFFA000)
+                    )
+                    Spacer(Modifier.width(8.dp))
                 }
+                val installs = formatInstalls(app.downloads)
                 Text(
-                    text = meta.joinToString(" · ").ifBlank { app.packageName ?: "" },
+                    text = installs.ifBlank {
+                        buildString {
+                            app.versionName?.let { append("v$it") }
+                            if (app.sizeBytes > 0) {
+                                if (isNotEmpty()) append(" · ")
+                                append(formatSize(app.sizeBytes))
+                            }
+                        }.ifBlank { app.packageName ?: "" }
+                    },
                     fontSize = 11.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
             }
+            if (app.summary.isNotBlank()) {
+                Spacer(Modifier.height(3.dp))
+                Text(
+                    text = app.summary,
+                    fontSize = 12.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
         trailing?.let {
-            Spacer(Modifier.width(8.dp))
+            Spacer(Modifier.width(10.dp))
             it()
         }
     }
+}
+
+/** 下载量格式化：1.5亿次 / 78万次 */
+fun formatInstalls(n: Long): String = when {
+    n >= 100_000_000L -> "%.1f亿次".format(n / 100_000_000.0)
+    n >= 10_000L -> "%.0f万次".format(n / 10_000.0)
+    n > 0 -> "$n 次"
+    else -> ""
 }
 
 @Composable

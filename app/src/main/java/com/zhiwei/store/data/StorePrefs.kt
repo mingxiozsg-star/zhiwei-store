@@ -18,7 +18,8 @@ class StorePrefs(context: Context) {
             // 首次启动：默认开启国内可达 + 开源源
             return DEFAULT_ENABLED.toSet()
         }
-        return saved.toSet()
+        // 老版本存过源列表但还没有豌豆荚这个主源：回到新默认，避免升级后搜不到东西
+        return if (!saved.contains("wandoujia")) DEFAULT_ENABLED.toSet() else saved.toSet()
     }
 
     fun setSourceEnabled(id: String, enabled: Boolean) {
@@ -120,8 +121,6 @@ class StorePrefs(context: Context) {
             "官方源" to "https://f-droid.org/repo"
         )
 
-        val DEFAULT_ENABLED = setOf(
-            "fdroid", "github", "aptoide", "apkpure", "apkcombo", "coolapk", "myapp"
-        )
+        val DEFAULT_ENABLED = setOf("wandoujia", "github")
     }
 }

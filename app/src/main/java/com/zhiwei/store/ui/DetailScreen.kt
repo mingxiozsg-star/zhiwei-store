@@ -148,6 +148,9 @@ fun DetailScreen(
                         onClick = {
                             if (primary == null) {
                                 onToast("该源没有可用的下载直链，可点「打开来源页」")
+                            } else if (!primary.url.contains(".apk", true)) {
+                                openUrl(primary.url)
+                                onToast("已在浏览器打开下载页")
                             } else {
                                 downloader.download(
                                     name = app.name,
@@ -272,14 +275,19 @@ fun DetailScreen(
                             )
                         }
                         TextButton(onClick = {
-                            downloader.download(
-                                name = app.name,
-                                packageName = app.packageName,
-                                sourceName = app.sourceName,
-                                url = opt.url,
-                                versionName = opt.versionName ?: app.versionName
-                            )
-                            onToast("已加入下载")
+                            if (!opt.url.contains(".apk", true)) {
+                                openUrl(opt.url)
+                                onToast("已在浏览器打开下载页")
+                            } else {
+                                downloader.download(
+                                    name = app.name,
+                                    packageName = app.packageName,
+                                    sourceName = app.sourceName,
+                                    url = opt.url,
+                                    versionName = opt.versionName ?: app.versionName
+                                )
+                                onToast("已加入下载")
+                            }
                         }) {
                             Text("下载", fontSize = 13.sp)
                         }

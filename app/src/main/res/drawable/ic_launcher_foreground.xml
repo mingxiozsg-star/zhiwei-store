@@ -4,17 +4,19 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+    <!-- 提手 -->
     <path
-        android:fillColor="#FFFFFFFF"
-        android:pathData="M49,26h10v26h-10z" />
-    <path
-        android:fillColor="#FFFFFFFF"
-        android:pathData="M38,50h32l-16,17z" />
-    <path
-        android:fillColor="#00FFFFFF"
+        android:pathData="M41,45 C41,32 67,32 67,45"
         android:strokeColor="#FFFFFFFF"
-        android:strokeWidth="6"
+        android:strokeWidth="6.5"
         android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:pathData="M28,72v6a4,4 0 0 0 4,4h44a4,4 0 0 0 4,-4v-6" />
+        android:fillColor="#00000000" />
+    <!-- 袋身 -->
+    <path
+        android:pathData="M31,44 L77,44 L73,84 C72.8,86 71,87.5 69,87.5 L39,87.5 C37,87.5 35.2,86 35,84 Z"
+        android:fillColor="#FFFFFFFF" />
+    <!-- 袋身中间的商店标识 -->
+    <path
+        android:pathData="M46,60 L52,60 L52,72 L46,72 Z M56,60 L62,60 L62,72 L56,72 Z"
+        android:fillColor="#FFFF4D7D" />
 </vector>

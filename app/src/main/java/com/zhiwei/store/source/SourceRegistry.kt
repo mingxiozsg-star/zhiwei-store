@@ -44,8 +44,10 @@ class SourceRegistry(context: Context, val prefs: StorePrefs) {
     private val apkcombo = ApkComboSource()
     private val coolapk = CoolapkSource { prefs.coolapkToken() }
     private val myapp = TencentSource()
+    private val wandoujia = WandoujiaSource()
 
-    val all: List<StoreSource> = listOf(fdroid, izzy, github, aptoide, apkpure, apkcombo, coolapk, myapp)
+    val all: List<StoreSource> =
+        listOf(wandoujia, fdroid, izzy, github, aptoide, apkpure, apkcombo, coolapk, myapp)
 
     fun enabled(): List<StoreSource> = all.filter { prefs.isSourceEnabled(it.id) }
 
