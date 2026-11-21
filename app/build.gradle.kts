@@ -75,11 +75,16 @@ android {
     }
 }
 
-// Force use of ARM64 binaries for AAPT2 in Proot environment
-configurations.all {
-    resolutionStrategy.eachDependency {
-        if (requested.group == "com.android.tools.build" && requested.name == "aapt2") {
-            useTarget("com.android.tools.build:aapt2:${requested.version}:linux-aarch64")
+// 仅在本机 ARM64（proot/Ubuntu 调试环境）强制使用 arm64 版 AAPT2；
+// CI 的 x86_64 runner 必须用官方二进制，否则会 exec format error。
+val isArm64Host = System.getProperty("os.arch")?.lowercase()
+    ?.let { it.contains("aarch64") || it.contains("arm64") } == true
+if (isArm64Host) {
+    configurations.all {
+        resolutionStrategy.eachDependency {
+            if (requested.group == "com.android.tools.build" && requested.name == "aapt2") {
+                useTarget("com.android.tools.build:aapt2:${requested.version}:linux-aarch64")
+            }
         }
     }
 }

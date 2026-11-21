@@ -83,7 +83,7 @@ jobs:
         with:
           name: 知微应用商店 ${{ steps.ver.outputs.name }}
           body_path: .github/RELEASE_NOTES.md
-          files: out/*.apk
+          files: out/app-release.apk
           draft: false
           prerelease: false
           fail_on_unmatched_files: true
